@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Card, Button } from 'react-bootstrap';
 import axios from 'axios'
 import Weather from './Weather'
+import Movies from './Movies'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -13,7 +14,8 @@ class App extends Component {
       longitude: '',
       latitude: '',
       error:'',
-      weatherData:[]
+      weatherData:[],
+      moviesData:[],
 
     }
   }
@@ -57,6 +59,14 @@ class App extends Component {
     console.log(axiosLocalApi.data[0])
     console.log(axiosLocalApi.data[0])
     console.log(this.state.longitude,this.state.latitude)
+
+    // let axiosMovieResponse= await axios.get(`http://localhost:8080/movies?searchQuery=${this.state.displayName}`)
+    let axiosMovieResponse= await axios.get(`http://localhost:8080/movies?city_name=${this.state.displayName}`)
+
+    this.setState({
+      moviesData:axiosMovieResponse.data
+    })
+    console.log(axiosMovieResponse.data[0])
   }
   
 
@@ -89,12 +99,25 @@ class App extends Component {
           </Card.Body>
         </Card>
         <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.d4d33965e53e9039815074b0322a83e1&center=${this.state.latitude},${this.state.longitude}&zoom=10`} rounded="true"/>
+           {<h1>
+                    Wether section:
+                </h1>
+           }
+        
         {
           this.state.weatherData.map(d=>{
             return < Weather description={d.description} date={d.date} />
           })
         }
-
+           {<h1>
+                    Movies section:
+                </h1>
+           }
+        {
+          this.state.moviesData.map(d=>{
+            return <Movies title={d.title} votes={d.votes} image_url={d.image_url}/>
+          })
+        }
 
       </>
     )
