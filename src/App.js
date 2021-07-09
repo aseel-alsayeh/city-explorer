@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Card, Button } from 'react-bootstrap';
 import axios from 'axios'
-import Weather from './Weather'
-import Movies from './Movies'
+import Weather from './components/Weather'
+import Movies from './components/Movies'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -99,25 +99,11 @@ class App extends Component {
           </Card.Body>
         </Card>
         <img src={`https://maps.locationiq.com/v3/staticmap?key=pk.d4d33965e53e9039815074b0322a83e1&center=${this.state.latitude},${this.state.longitude}&zoom=10`} rounded="true"/>
-           {<h1>
-                    Wether section:
-                </h1>
-           }
         
-        {
-          this.state.weatherData.map(d=>{
-            return < Weather description={d.description} date={d.date} />
-          })
-        }
-           {<h1>
-                    Movies section:
-                </h1>
-           }
-        {
-          this.state.moviesData.map(d=>{
-            return <Movies title={d.title} votes={d.votes} image_url={d.image_url}/>
-          })
-        }
+        
+        <Weather weatherData={this.state.weatherData}  />
+        <Movies moviesData={this.state.moviesData} />
+        
 
       </>
     )
